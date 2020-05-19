@@ -425,11 +425,8 @@ void listarMascotasMismoSexo(Cliente* list, Mascotas* mascotasList, int mascotas
 	printf("Nombre\tCant m\n");
 	for (int j = 0; j < len; j++)
 	{
-		for (int i = 0; i < len; i++)
-		{
-			contadorMasculino[i] = 0;
-			contadorFemenino[i] = 0;
-		}
+		contadorMasculino[j] = 0;
+		contadorFemenino[j] = 0;
 		for (int k = 0; k < mascotasLen; k++)
 		{
 			if (mascotasList[k].sexo == 'f' || mascotasList[k].sexo == 'F')
@@ -446,4 +443,5 @@ void listarMascotasMismoSexo(Cliente* list, Mascotas* mascotasList, int mascotas
 			printf("%s\t%d\n", list[j].nombre, list[j].cantMascotas);
 		}
 	}
+	system("pause");
 }
