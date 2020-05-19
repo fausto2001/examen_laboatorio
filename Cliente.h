@@ -22,3 +22,4 @@ void modificarCliente(Cliente* list, int len);
 void ordenarPorCantMascotas(Cliente* list, int len);
 void ordenarPorCantMascotasyNombre(Cliente* list, int len);
 void porcentajeMujeresVarones(Cliente* list, int len);
+void listarClientes(Cliente* list, int len);

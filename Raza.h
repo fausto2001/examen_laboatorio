@@ -12,3 +12,4 @@ struct
 void initRazas(Raza* list, int len);
 void harcodearRazas(Raza* list, int len);
 void listarRazasConId(Raza* list, int len);
+void modificarRaza(Raza* list, int len);

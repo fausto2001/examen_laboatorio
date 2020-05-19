@@ -267,3 +267,16 @@ void porcentajeMujeresVarones(Cliente* list, int len)
 	printf("El porcentaje de mujeres es %f%\n", promedioMujeres);
 	system("pause");
 }
+
+void listarClientes(Cliente* list, int len)
+{
+	printf("Nombre\tApellido Localidad\tTelefono\tEdad\tSexo\n");
+	for (int i = 0; i < len; i++)
+	{
+		if(!list[i].isEmpty)
+		{
+		printf("%s\t%s \t %s\t\t%d\t\t%d\t%c\n", list[i].nombre, list[i].apellido, list[i].localidad, list[i].telefono, list[i].edad, list[i].sexo);
+		}
+	}
+	system("pause");
+}

@@ -11,3 +11,5 @@ void ordenarPorTipo(Mascotas* mascotasList, int mascotasLen);
 void listaClientesMasDeUnaMascota(Cliente* list, Mascotas* mascotasList, int len);
 void listaMascotasAdultas(Cliente* list, Mascotas* mascotasList, int len, int mascotasLen);
 void initCantidad(Cliente* list, Mascotas* mascotasList, int len, int mascotasLen);
+void modificarMascota(Mascotas* mascotasList, Cliente* list, int mascotasLen, int len);
+void listarMascotasMismoSexo(Cliente* list, Mascotas* mascotasList, int mascotasLen, int len);

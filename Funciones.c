@@ -38,6 +38,9 @@ void menu()
 		printf("13. Promedio edad mascotas\n");
 		printf("14. Promedio edad mascotas por tipo\n");
 		printf("15. Porcentaje de mujeres y varones\n");
+		printf("16. Listar clientes\n");
+		printf("17. Listar mascotas\n");
+		printf("18. Listar cleintes con mascotas del mismo sexo\n");
 		scanf("%d", &option);
 		switch (option)
 		{
@@ -51,7 +54,7 @@ void menu()
 			bajaMascota(listaMascotas, MAX_MASCOTAS);
 			break;
 		case 4:
-			modificarMascota(listaMascotas, MAX_MASCOTAS);
+			modificarMascota(listaMascotas, listaClientes, MAX_MASCOTAS, MAX_CLIENTES);
 			break;
 		case 5:
 			altaCliente(listaClientes, MAX_CLIENTES);
@@ -85,6 +88,16 @@ void menu()
 			break;
 		case 15:
 			porcentajeMujeresVarones(listaClientes, MAX_CLIENTES);
+			break;
+		case 16:
+			listarClientes(listaClientes, MAX_CLIENTES);
+			break;
+		case 17:
+			listarMascotas2(listaMascotas, MAX_MASCOTAS);
+			break;
+		case 18:
+			listarMascotasMismoSexo(listaClientes, listaMascotas, MAX_MASCOTAS, MAX_CLIENTES);
+			break;
 		}
 	}
 }
@@ -169,9 +182,7 @@ void altaMascota(Cliente* list, Mascotas* mascotasList, Raza* razaList, int masc
 	gets(mascotasList[id].nombre);
 	printf("\nTipo (0 es gato, 1 es perro, 2 es otro): ");
 	scanf("%d", &mascotasList[id].tipo);
-	printf("\nRaza: ");
 	mifflush();
-	gets(mascotasList[id].raza);
 	printf("\nEdad: ");
 	scanf("%d", &mascotasList[id].edad);
 	printf("\nPeso: ");
@@ -202,17 +213,30 @@ void bajaCliente(Cliente* list, Mascotas* mascotasList, int mascotasLen, int len
 	int id = 0;
 	int i = 0;
 	int flag = 0;
+	char conf = 0;
 	listarClientesConId(list, len);
 	printf("\n Que cliente desea eliminar? ");
 	scanf("%d", &id);
-	for (i = 0; i < mascotasLen; i++)
+	mifflush();
+	printf("Esta seguro que desea eliminar al cliente ID #%d??? Escriba 'S' para confirmar: ", id);
+	scanf("%c", &conf);
+	if (conf != 's' && conf != 'S')
 	{
-		if (id == mascotasList[i].idCliente)
-		{
-			mascotasList[i].isEmpty = 1;
-		}
+		printf("La eliminación fue abortada.\n");
+		system("pause");
+		return 0;
 	}
-	list[id].isEmpty = 1;
+	else
+	{
+		for (i = 0; i < mascotasLen; i++)
+		{
+			if (id == mascotasList[i].idCliente)
+			{
+				mascotasList[i].isEmpty = 1;
+			}
+		}
+		list[id].isEmpty = 1;
+	}
 }
 
 void ordenarPorTipo(Mascotas* mascotasList, int mascotasLen)
@@ -278,4 +302,148 @@ void listaMascotasAdultas(Cliente* list, Mascotas* mascotasList, int len, int ma
 		}
 	}
 	system("pause");
+}
+
+void modificarMascota(Mascotas* mascotasList, Cliente* list, int mascotasLen, int len)
+{
+	system("cls");
+	int id = 0;
+	int j = 0;
+	int flag = 0;
+	int opcionTipo = 0;
+	char nombreCliente[51];
+	listarMascotas(mascotasList, MAX_MASCOTAS);
+	printf("Que mascota desea modificar? ");
+	scanf("%d", &id);
+	while (j < mascotasLen && !flag)
+	{
+		if (id == mascotasList[j].idMascota)
+		{
+			if (mascotasList[j].isEmpty == 1)
+			{
+				flag++;
+			}
+			else
+			{
+				break;
+			}
+		}
+		else
+		{
+			j++;
+		}
+	}
+	if (flag == 1)
+	{
+		printf("La mascota no ha sido encontrada");
+		system("pause");
+	}
+	else
+	{
+		int opcionMascota = -1;
+		while (opcionMascota != 0)
+		{
+			char tipoMascota[15];
+			switch (mascotasList[id].tipo)
+			{
+			case 0:
+				strcpy(tipoMascota, "Gato");
+				break;
+			case 1:
+				strcpy(tipoMascota, "Perro");
+				break;
+			case 2:
+				strcpy(tipoMascota, "Raro");
+				break;
+			}
+			for (int k = 0; k < len; k++)
+			{
+				if (list[k].id == mascotasList[id].idCliente)
+				{
+					strcpy(nombreCliente, list[k].nombre);
+				}
+			}
+			system("cls");
+			mifflush();
+			printf("Que desea modificar de esta mascota? ");
+			printf("\n1: Nombre - %s\n", mascotasList[id].nombre);
+			printf("2: Tipo - %s\n", tipoMascota);
+			printf("3: Raza - %s\n", mascotasList[id].raza);
+			printf("4: Edad - %d\n", mascotasList[id].edad);
+			printf("5: Peso - %d\n", mascotasList[id].peso);
+			printf("6: Sexo - %c\n", mascotasList[id].sexo);
+			printf("7: Dueno - %s\n", nombreCliente);
+			printf("\nEscriba 0 para regresar al menú principal:  ");
+			scanf("%d", &opcionMascota);
+			switch (opcionMascota)
+			{
+			case 1:
+				mifflush();
+				printf("Escriba el nuevo nombre: ");
+				gets(mascotasList[id].nombre);
+				break;
+			case 2:
+				mifflush();
+				printf("Escriba el nuevo tipo (0 -> gato, 1 -> perro, 2 -> otro).");
+				scanf("%d", &opcionTipo);
+				mascotasList[id].tipo = opcionTipo;
+				break;
+			case 3:
+				mifflush();
+				printf("Escriba raza del animal: ");
+				gets(mascotasList[id].raza);
+				break;
+			case 4:
+				mifflush();
+				printf("Escriba la edad del animal: ");
+				scanf("%d", &mascotasList[id].edad);
+				break;
+			case 5:
+				mifflush();
+				printf("Escriba el peso del animal: ");
+				scanf("%d", &mascotasList[id].peso);
+				break;
+			case 6:
+				mifflush();
+				printf("Escriba el sexo del animal (m Masculino y f para Femenino)");
+				scanf("%c", &mascotasList[id].sexo);
+				break;
+			case 7:
+				mifflush();
+				printf("Elija el nuevo cliente: ");
+				listarClientesConId(list, len);
+				scanf("%d", &mascotasList[id].idCliente);
+			}
+		}
+	}
+}
+
+void listarMascotasMismoSexo(Cliente* list, Mascotas* mascotasList, int mascotasLen, int len)
+{
+	int contadorMasculino[MAX_CLIENTES];
+	int contadorFemenino[MAX_CLIENTES];
+	printf("Nombre\tCant m\n");
+	for (int j = 0; j < len; j++)
+	{
+		for (int i = 0; i < len; i++)
+		{
+			contadorMasculino[i] = 0;
+			contadorFemenino[i] = 0;
+		}
+		for (int k = 0; k < mascotasLen; k++)
+		{
+			if (mascotasList[k].sexo == 'f' || mascotasList[k].sexo == 'F')
+			{
+				contadorFemenino[j]++;
+			}
+			else
+			{
+				contadorMasculino[j]++;
+			}
+		}
+		if (contadorFemenino[j] == list[j].cantMascotas || contadorMasculino[j] == list[j].cantMascotas)
+		{
+			printf("%s\t%d\n", list[j].nombre, list[j].cantMascotas);
+		}
+	}
 }

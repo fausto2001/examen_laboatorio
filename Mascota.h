@@ -18,6 +18,6 @@ void initMascotas(Mascotas* mascotasList, int mascotasLen);
 void hardcodearMascotas(Mascotas* mascotasList);
 void bajaMascota(Mascotas* mascotasList, int mascotasLen);
 void listarMascotas(Mascotas* mascotasList, int mascotasLen);
-void modificarMascota(Mascotas* mascotasList, int mascotasLen);
 void promedioEdad(Mascotas* mascotasList, int mascotasLen);
 void promedioEdadPorTipo(Mascotas* mascotasList, int mascotasLen);
+void listarMascotas2(Mascotas* mascotasList, int mascotasLen);

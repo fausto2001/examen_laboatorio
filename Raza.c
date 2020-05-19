@@ -53,3 +53,8 @@ void listarRazasConId(Raza* razaList, int len)
 		}
 	}
 }
+
+void modificarRaza(Raza* razaList, int len)
+{
+
+}
